@@ -3,6 +3,9 @@ from platform import win32_ver, mac_ver, linux_distribution
 import requests
 
 
+URI = 'https://murmuring-stream-99222.herokuapp.com/posts'
+
+
 def get_args():
     parser = ArgumentParser(description='Fake git command')
     subparsers = parser.add_subparsers()
@@ -15,7 +18,7 @@ def get_args():
 
 
 def show_list(args):
-    response = requests.get('https://murmuring-stream-99222.herokuapp.com/posts')
+    response = requests.get(URI)
     posts = response.json()
     for post in posts:
         print(post['command'], post['message'])
@@ -35,7 +38,7 @@ def push_message(args):
         'command': get_env(),
         'message': args.path_root_src
     }
-    response = requests.post('http://localhost:3000/posts', data=data)
+    response = requests.post(URI, data=data)
 
 
 def main():
