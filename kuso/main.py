@@ -15,7 +15,7 @@ def get_args():
 
 
 def show_list(args):
-    response = requests.get('http://localhost:3000/posts')
+    response = requests.get('https://murmuring-stream-99222.herokuapp.com/posts')
     posts = response.json()
     for post in posts:
         print(post['command'], post['message'])
