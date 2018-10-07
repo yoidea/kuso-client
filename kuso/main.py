@@ -7,9 +7,10 @@ URI = 'https://murmuring-stream-99222.herokuapp.com/posts'
 
 
 def get_args():
-    parser = ArgumentParser(description='Fake git command')
+    parser = ArgumentParser(description='イラッとしたときにコマンドラインから怒りを吐き出せるツール')
     subparsers = parser.add_subparsers()
     parser_list = subparsers.add_parser('list', help='show list')
+    parser_list.add_argument('-n', type=int, default=10, help='number of list items')
     parser_list.set_defaults(handler=show_list)
     parser_push = subparsers.add_parser('push', help='push message')
     parser_push.add_argument('path_root_src', help='message')
@@ -20,13 +21,18 @@ def get_args():
 def show_list(args):
     response = requests.get(URI)
     posts = response.json()
+    print("💢 \033[35m最新のMaji Kuso\033[0m\n")
+    i = 0
     for post in posts:
-        print(post['command'], post['message'])
+        i += 1
+        if i > args.n:
+            break
+        print(" \033[35m-\033[0m " + post['message'])
 
 
 def get_env():
     if win32_ver() != ('', '', '', ''):
-        return "Windows"
+        return "Windows " + str(win32_ver()[0])
     if mac_ver() != ('', ('', '', ''), ''):
         return "MacOS " + str(mac_ver()[0])
     if linux_distribution() == ('', '', ''):
@@ -39,6 +45,9 @@ def push_message(args):
         'message': args.path_root_src
     }
     response = requests.post(URI, data=data)
+    print("\033[32m✔ \033[35mPushed Maji Kuso\033[0m\n")
+    print(" \033[35m>\033[0m " + data['message'])
+    print("\033[32m(# `)3′)\033[35m▃▃▃▅▆▇▉\033[0m\n")
 
 
 def main():
