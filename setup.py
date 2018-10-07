@@ -5,7 +5,7 @@ setup(
     name='kuso',
     version='0.1',
     packages=find_packages(),
-    install_requires=['numpy'],
+    install_requires=['argparse', 'platform', 'requests'],
     entry_points={
         'console_scripts':
             'kuso = kuso.main:main'
